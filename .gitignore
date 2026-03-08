@@ -1,0 +1,36 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Data files (too large for GitHub)
+data/raw/archive.zip
+data/raw/audio_speech_actors_01-24/
+*.wav
+
+# Model files (optional: remove these lines if you want to track models)
+models/*.keras
+models/*.joblib
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Logs
+logs/
+
+# Jupyter
+.ipynb_checkpoints/

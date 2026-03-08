@@ -1,0 +1,40 @@
+# Core Machine Learning Frameworks (Optional - uncomment if needed)
+# Note: TensorFlow/PyTorch require additional setup for Python 3.13
+# For basic audio analysis, the core libraries below are sufficient
+# tensorflow>=2.15.0
+# torch>=2.2.0
+# transformers>=4.40.0
+
+# Audio Processing Libraries (REQUIRED)
+librosa>=0.10.0
+sounddevice>=0.4.6
+soundfile>=0.12.1
+pydub>=0.25.1
+
+# Signal Processing & Feature Extraction (REQUIRED)
+numpy>=1.24.0
+scipy>=1.11.0
+scikit-learn>=1.3.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Frontend & Web Framework (REQUIRED)
+streamlit>=1.28.0
+
+# Data Management (REQUIRED)
+pandas>=2.1.0
+sqlalchemy>=2.0.0
+
+# Jupyter & Development (OPTIONAL)
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+ipython>=8.16.0
+
+# Audio Dataset Support (OPTIONAL)
+gdown>=4.7.1
+
+# Utilities (REQUIRED)
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+pyyaml>=6.0
+requests>=2.31.0
