@@ -147,10 +147,10 @@ VocalVitals/
 git clone https://github.com/yashnarana/VocalVitals.git
 cd VocalVitals
 
-# 2. Create and activate a virtual environment
-python3 -m venv venv
-source venv/bin/activate        # macOS/Linux
-# venv\Scripts\activate         # Windows
+# 2. Create and activate a virtual environment (Python 3.12 recommended)
+python3 -m venv .venv
+source .venv/bin/activate        # macOS/Linux
+# .venv\Scripts\activate         # Windows
 
 # 3. Install dependencies
 pip install -r requirements.txt
@@ -177,16 +177,14 @@ streamlit run app/main.py
 
 **Terminal 1 — Backend:**
 ```bash
-source venv/bin/activate
-cd backend
-python main.py
+.venv/bin/python backend/main.py
 # API running at http://localhost:8000
 # Swagger docs at http://localhost:8000/docs
 ```
 
 **Terminal 2 — Frontend (Streamlit):**
 ```bash
-source venv/bin/activate
+source .venv/bin/activate
 streamlit run frontend/app.py
 # Opens at http://localhost:8501
 ```
@@ -194,7 +192,7 @@ streamlit run frontend/app.py
 ### Using the App
 
 1. Navigate to **Analyze Voice**
-2. Upload a `.wav`, `.mp3`, or `.m4a` audio file
+2. **Record your voice** using the built-in microphone, or upload a `.wav`, `.mp3`, or `.m4a` file
 3. View results: emotion prediction, burnout score, acoustic features, Mel-spectrogram
 4. Save to **Voice Journal** for tracking
 5. Check **Trends** for patterns over time
