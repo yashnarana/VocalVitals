@@ -16,10 +16,6 @@ data/raw/archive.zip
 data/raw/audio_speech_actors_01-24/
 *.wav
 
-# Model files (optional: remove these lines if you want to track models)
-models/*.keras
-models/*.joblib
-
 # OS files
 .DS_Store
 Thumbs.db
