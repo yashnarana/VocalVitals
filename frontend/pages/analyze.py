@@ -1,4 +1,4 @@
-"""Analyze page — upload audio and view emotion / burnout results."""
+"""Analyze page — record or upload audio and view emotion / burnout results."""
 
 import streamlit as st
 import sys, os
@@ -26,31 +26,61 @@ def _burnout_emoji(level: str) -> str:
 def render():
     st.title("🎙️ Analyze Your Voice")
 
-    col_upload, col_results = st.columns(2)
+    col_input, col_results = st.columns(2)
 
-    # ── Left column: upload & analyze ────────────────────────────────
-    with col_upload:
-        with st.container(border=True):
-            st.subheader("Upload & Analyze")
-            uploaded_file = st.file_uploader(
-                "Select Audio File",
-                type=["wav", "mp3", "m4a", "ogg"],
-                help="Supported: WAV, MP3, M4A, OGG",
-            )
+    # ── Left column: record or upload & analyze ──────────────────────
+    with col_input:
+        input_method = st.radio(
+            "Choose input method",
+            ["🎤 Record", "📁 Upload File"],
+            horizontal=True,
+            label_visibility="collapsed",
+        )
 
-            analyze_btn = st.button(
-                "🔍 Analyze Voice",
-                disabled=uploaded_file is None,
-                use_container_width=True,
-                type="primary",
-            )
+        audio_bytes = None
+        audio_filename = None
 
-        if analyze_btn and uploaded_file is not None:
+        if input_method == "🎤 Record":
+            with st.container(border=True):
+                st.subheader("🎤 Record Your Voice")
+                st.caption(
+                    "Click the microphone below and speak for 3–10 seconds. "
+                    "Your browser will ask for microphone permission."
+                )
+                recording = st.audio_input("Record a voice sample")
+
+                if recording is not None:
+                    audio_bytes = recording.read()
+                    audio_filename = "recording.wav"
+                    st.audio(audio_bytes, format="audio/wav")
+                    st.success("Recording captured! Click **Analyze** below.")
+
+        else:  # Upload File
+            with st.container(border=True):
+                st.subheader("📁 Upload Audio File")
+                uploaded_file = st.file_uploader(
+                    "Select Audio File",
+                    type=["wav", "mp3", "m4a", "ogg"],
+                    help="Supported: WAV, MP3, M4A, OGG",
+                )
+                if uploaded_file is not None:
+                    audio_bytes = uploaded_file.read()
+                    audio_filename = uploaded_file.name
+                    st.audio(audio_bytes)
+
+        analyze_btn = st.button(
+            "🔍 Analyze Voice",
+            disabled=audio_bytes is None,
+            use_container_width=True,
+            type="primary",
+        )
+
+        if analyze_btn and audio_bytes is not None:
             with st.spinner("Analyzing..."):
                 try:
-                    result = analyze_audio(uploaded_file.read(), uploaded_file.name)
+                    result = analyze_audio(audio_bytes, audio_filename)
                     st.session_state["analysis_result"] = result
-                    st.session_state["analysis_filename"] = uploaded_file.name
+                    st.session_state["analysis_filename"] = audio_filename
                 except Exception as exc:
                     st.error(f"Analysis failed: {exc}")
 

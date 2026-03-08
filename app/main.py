@@ -265,12 +265,12 @@ def page_analyze():
         return
     
     # Audio input method
-    input_method = st.radio("Choose input method:", ["Upload File", "Record Now"])
+    input_method = st.radio("Choose input method:", ["🎤 Record Now", "📁 Upload File"], horizontal=True)
     
     audio_data = None
     sr = 22050
     
-    if input_method == "Upload File":
+    if input_method == "📁 Upload File":
         uploaded_file = st.file_uploader("Upload audio file", type=['wav', 'mp3', 'm4a'])
         
         if uploaded_file:
@@ -285,8 +285,21 @@ def page_analyze():
             except Exception as e:
                 st.error(f"Error loading file: {e}")
     
-    else:
-        st.info("📱 Web-based recording not yet available. Use 'Upload File' option or desktop app.")
+    else:  # Record Now
+        st.info("🎤 Click the microphone icon below and speak for 3–10 seconds. Your browser will ask for microphone permission.")
+        recording = st.audio_input("Record a voice sample")
+
+        if recording is not None:
+            # Save the recorded audio to a temp file for processing
+            temp_path = "/tmp/vocalvitals_recording.wav"
+            with open(temp_path, "wb") as f:
+                f.write(recording.read())
+
+            try:
+                audio_data, sr = st.session_state.audio_processor.load_audio(temp_path)
+                st.success("✅ Recording captured! Scroll down to see results.")
+            except Exception as e:
+                st.error(f"Error processing recording: {e}")
     
     # Analysis section
     if audio_data is not None:
